@@ -3,7 +3,6 @@
 #include <thread>
 #include <vector>
 #include <mutex>
-#include <ncurses.h>
 
 std::mutex mx;
 
