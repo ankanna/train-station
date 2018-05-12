@@ -39,7 +39,7 @@
     void Train::wait()
     {
         std::unique_lock<std::mutex> lock(StaticWrapper::mutex);
-        StaticWrapper::platform_cv.wait(lock, []{ return StaticWrapper::platform_is_free == true; });// TODO: add condition about number of wainting trains
+        StaticWrapper::platform_cv.wait(lock, []{ return StaticWrapper::platform_is_free == true; });// TODO: add condition about number of waiting trains
         
         // assign number of train as last train 
         StaticWrapper::train_number = train_number;

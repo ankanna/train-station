@@ -29,7 +29,7 @@ void StaticWrapper::notify_platform()
         platform_cv.notify_all();
     }
 
-// notifies about free slot on list (new train can join to wainting trains)
+// notifies about free slot on list (new train can join waiting trains)
 void StaticWrapper::notify_list()
     {
         list_cv.notify_all();

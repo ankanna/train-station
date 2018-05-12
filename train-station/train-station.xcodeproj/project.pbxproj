@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		81B93CEC2074F4AC00524F53 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 81B93CEB2074F4AC00524F53 /* main.cpp */; };
 		81DE1924207528CC00F0078D /* libncurses.5.4.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 81DE1923207528CC00F0078D /* libncurses.5.4.tbd */; };
+		8607CE7C20A7955F00E5ED73 /* StaticWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8607CE7620A7955F00E5ED73 /* StaticWrapper.cpp */; };
+		8607CE7D20A7955F00E5ED73 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 8607CE7920A7955F00E5ED73 /* Makefile */; };
+		8607CE7E20A7955F00E5ED73 /* Platform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8607CE7A20A7955F00E5ED73 /* Platform.cpp */; };
 		86B46074208E432C00C15696 /* Train.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86B46073208E432C00C15696 /* Train.cpp */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +31,12 @@
 		81B93CE82074F4AC00524F53 /* train-station */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "train-station"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81B93CEB2074F4AC00524F53 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		81DE1923207528CC00F0078D /* libncurses.5.4.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.5.4.tbd; path = usr/lib/libncurses.5.4.tbd; sourceTree = SDKROOT; };
+		8607CE7620A7955F00E5ED73 /* StaticWrapper.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StaticWrapper.cpp; sourceTree = "<group>"; };
+		8607CE7720A7955F00E5ED73 /* StaticWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StaticWrapper.h; sourceTree = "<group>"; };
+		8607CE7820A7955F00E5ED73 /* Train.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Train.h; sourceTree = "<group>"; };
+		8607CE7920A7955F00E5ED73 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		8607CE7A20A7955F00E5ED73 /* Platform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Platform.cpp; sourceTree = "<group>"; };
+		8607CE7B20A7955F00E5ED73 /* Platform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		86B46073208E432C00C15696 /* Train.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Train.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,6 +72,12 @@
 		81B93CEA2074F4AC00524F53 /* train-station */ = {
 			isa = PBXGroup;
 			children = (
+				8607CE7920A7955F00E5ED73 /* Makefile */,
+				8607CE7A20A7955F00E5ED73 /* Platform.cpp */,
+				8607CE7B20A7955F00E5ED73 /* Platform.h */,
+				8607CE7620A7955F00E5ED73 /* StaticWrapper.cpp */,
+				8607CE7720A7955F00E5ED73 /* StaticWrapper.h */,
+				8607CE7820A7955F00E5ED73 /* Train.h */,
 				81B93CEB2074F4AC00524F53 /* main.cpp */,
 				86B46073208E432C00C15696 /* Train.cpp */,
 			);
@@ -135,7 +150,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				86B46074208E432C00C15696 /* Train.cpp in Sources */,
+				8607CE7C20A7955F00E5ED73 /* StaticWrapper.cpp in Sources */,
+				8607CE7D20A7955F00E5ED73 /* Makefile in Sources */,
 				81B93CEC2074F4AC00524F53 /* main.cpp in Sources */,
+				8607CE7E20A7955F00E5ED73 /* Platform.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
