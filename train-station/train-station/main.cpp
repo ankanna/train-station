@@ -9,7 +9,7 @@
 #include <ncurses.h>
 #include <unistd.h>
 
-// waits until 
+// waits until train goes to platform
 void provide_trains(std::vector<Train> trains)
 {
     int train_coutner = 0;
