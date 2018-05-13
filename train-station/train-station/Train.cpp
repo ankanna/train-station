@@ -37,7 +37,7 @@ void Train::wait()
     StaticWrapper::train_number = train_number;
     StaticWrapper::train_position = train_position;
     
-    std::cout << " Train " << train_number << " goes to platform " << StaticWrapper::platform_number << std::endl;
+    std::cout << "Train " << train_number << " goes to platform " << StaticWrapper::platform_number << std::endl;
     StaticWrapper::platform_is_free = false;
 
 
