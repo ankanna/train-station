@@ -10,24 +10,21 @@
 
 class Train
 {
+public:
+    
     int train_number;
+    int train_position;
     int loading_time;
     int max_waiting_time;
     
     int priority;
-    char state;
+    //char state;
     
-    
-public:
-    
-    Train(int train_number);
+    Train(int train_number, int train_position);
     
     Train();
     
-    int get_train_number();
-    
-    int get_train_priority();
-    
+    // wait for free platform
     void wait();
 };
 

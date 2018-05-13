@@ -16,10 +16,9 @@
 
 class Platform
 {
-    
-    
 public:
     
+    // platform number
     int number;
     
     Platform(int number);

@@ -9,21 +9,33 @@
 #include <ncurses.h>
 #include <unistd.h>
 
-// waits until train goes to platform
 void provide_trains(std::vector<Train> trains)
 {
+    // couter to provide sequent train numbers (without dupilcation of trains that drove away)
     int train_coutner = 0;
+    
     while(1)
     {
+        // wait until train goes to free platform
+        // https://github.com/Scony/systemy-operacyjne-2/blob/master/projekt/zajecia-3-4-atomic-condvar/program7-cv-wait-pred.cpp
+        
         std::unique_lock<std::mutex> lock(StaticWrapper::mutex);
         StaticWrapper::list_cv.wait(lock, []{ return StaticWrapper::is_free_slot == true; });
-        trains.push_back(Train(train_coutner));
+        
+        // add new train
+        trains.push_back(Train(train_coutner, StaticWrapper::train_position));
+        
+        // TODO: create thread and run it
+        
         train_coutner++;
+        
+        // tell everyone that there is no free slot for new waiting train
         StaticWrapper::is_free_slot = false;
     }
 }
 
-//void write_trains(List<Train> trains, WINDOW* b)
+// TODO: use ncurses and write list of trains, platforms and trains
+//void write_trains(std::vector<Train> trains, WINDOW* b)
 //{
 //    while(1)
 //    {
@@ -34,33 +46,43 @@ void provide_trains(std::vector<Train> trains)
 int main()
 {
     //WINDOW * a, b;
-
     
     
+    // vector of waiting trains
     std::vector<Train> trains;
-    std::vector<Platform> platforms;
-
     
-    for(int i = 0; i < 3; i++){
+    // list of platforms
+    std::vector<Platform> platforms;
+    
+    // determines how many trains can be on waiting list
+    static int number_of_trains = 6;
+    
+    static int number_of_platforms = 3;
+    
+    
+    for(int i = 0; i < number_of_platforms; i++){
         Platform platform(i+1);
         platforms.push_back(platform);
     }
     
-    for(int i = 0; i < 6; i++){
-        Train train(i+1);
+    for(int i = 0; i < number_of_trains; i++){
+        Train train(i+1, i+1);
         trains.push_back(train);
     }
     
     //std::cout << platforms[0].number;
     
+    // TODO: add this thread to vector and join them in loop
+    
     std::thread thread1(&Platform::work, platforms[0], trains);
     std::thread thread2(&Platform::work, platforms[1], trains);
     std::thread thread3(&Platform::work, platforms[2], trains);
+    
     std::thread thread4(&Train::wait, trains[0]);
     std::thread thread5(&Train::wait, trains[1]);
     std::thread thread6(&Train::wait, trains[2]);
-
-
+    // should be 3 more threads for trains here
+    
     std::thread thread_provider(provide_trains,trains);
     
     thread1.join();
@@ -70,6 +92,6 @@ int main()
     thread5.join();
     thread6.join();
     thread_provider.join();
-
+    
 }
 
