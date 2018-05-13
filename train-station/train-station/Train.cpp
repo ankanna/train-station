@@ -36,7 +36,7 @@ void Train::wait()
     StaticWrapper::platform_cv.wait(lock, []{ return StaticWrapper::platform_is_free == true; });
     // TODO: add condition about number of waiting trains
     
-    // assign number and position of train as last train which found free platform
+    // assign number and position of this train as last train which found free platform
     StaticWrapper::train_number = train_number;
     StaticWrapper::train_position = train_position;
     

@@ -23,9 +23,11 @@ void provide_trains(std::vector<Train> trains)
         StaticWrapper::list_cv.wait(lock, []{ return StaticWrapper::is_free_slot == true; });
         
         // add new train
-        trains.push_back(Train(train_coutner, StaticWrapper::train_position));
+        Train train(train_coutner, StaticWrapper::train_position);
+        trains.push_back(train);
         
-        // TODO: create thread and run it
+        // create thread and run it
+        std::thread thread(&Train::wait, trains.back());
         
         train_coutner++;
         
@@ -55,9 +57,9 @@ int main()
     std::vector<Platform> platforms;
     
     // determines how many trains can be on waiting list
-    static int number_of_trains = 6;
+    static int number_of_trains = 3;
     
-    static int number_of_platforms = 3;
+    static int number_of_platforms = 6;
     
     
     for(int i = 0; i < number_of_platforms; i++){
