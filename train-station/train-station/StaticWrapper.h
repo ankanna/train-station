@@ -11,6 +11,7 @@
 #include <iostream>
 #include <mutex>
 #include <condition_variable>
+#include "Train.h"
 
 class StaticWrapper
 {
@@ -31,11 +32,17 @@ public:
     // position on list of last train which found free platform
     static int train_position;
     
+    static int platform_number;
+    
     // is there a free platform?
     static bool platform_is_free;
     
     // is there a free slot on list of trains that are waiting for free platform?
     static bool is_free_slot;
+    
+    static int number_of_trains;
+    
+    static std::vector<Train> trains;
     
     StaticWrapper();
     

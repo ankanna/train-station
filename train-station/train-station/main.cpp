@@ -11,29 +11,32 @@
 
 void provide_trains(std::vector<Train> trains)
 {
-    // couter to provide sequent train numbers (without dupilcation of trains that drove away)
-    int train_coutner = 0;
+    // couter to provide sequent train numbers (without dupilcation of trains numbers that left platform)
+    int train_coutner = trains.size()+1;
     
     while(1)
-    {
+    {        
         // wait until train goes to free platform
         // https://github.com/Scony/systemy-operacyjne-2/blob/master/projekt/zajecia-3-4-atomic-condvar/program7-cv-wait-pred.cpp
-        
         std::unique_lock<std::mutex> lock(StaticWrapper::mutex);
         StaticWrapper::list_cv.wait(lock, []{ return StaticWrapper::is_free_slot == true; });
         
+        // tell everyone that there is no free slot for new waiting train
+        StaticWrapper::is_free_slot = false;
         // add new train
-        Train train(train_coutner, StaticWrapper::train_position);
+        Train train(train_coutner, trains.size());
         trains.push_back(train);
+        StaticWrapper::number_of_trains = trains.size();
+        
+
+        std::cout << "Added new train number " << train_coutner << std::endl;
         
         // create thread and run it
         std::thread thread(&Train::wait, trains.back());
         thread.join();
         
         train_coutner++;
-        
-        // tell everyone that there is no free slot for new waiting train
-        StaticWrapper::is_free_slot = false;
+
     }
 }
 
@@ -46,21 +49,31 @@ void provide_trains(std::vector<Train> trains)
 //    }
 //}
 
+void initialize_ncurses()
+{
+    srand(time(NULL));
+    initscr();
+    noecho();
+    curs_set(FALSE);
+    start_color();
+    refresh(); // Need this to let other windows be drawn
+}
+
 int main()
 {
     //WINDOW * a, b;
     
     
-    // vector of waiting trains
-    std::vector<Train> trains;
+//    // vector of waiting trains
+//    std::vector<Train> trains;
     
     // list of platforms
     std::vector<Platform> platforms;
     
     // determines how many trains can be on waiting list
-    static int number_of_trains = 3;
+    static int number_of_trains = 4;
     
-    static int number_of_platforms = 6;
+    static int number_of_platforms = 3;
     
     
     for(int i = 0; i < number_of_platforms; i++){
@@ -69,32 +82,44 @@ int main()
     }
     
     for(int i = 0; i < number_of_trains; i++){
-        Train train(i+1, i+1);
-        trains.push_back(train);
+        Train train(i+1, i);
+        StaticWrapper::trains.push_back(train);
     }
     
-    //std::cout << platforms[0].number;
     
     // TODO: add this thread to vector and join them in loop
     
-    std::thread thread1(&Platform::work, platforms[0], trains);
-    std::thread thread2(&Platform::work, platforms[1], trains);
-    std::thread thread3(&Platform::work, platforms[2], trains);
     
-    std::thread thread4(&Train::wait, trains[0]);
-    std::thread thread5(&Train::wait, trains[1]);
-    std::thread thread6(&Train::wait, trains[2]);
-    // should be 3 more threads for trains here
+    std::thread thread_provider(provide_trains,StaticWrapper::trains);
+
+    std::thread thread4(&Train::wait, StaticWrapper::trains[0]);
+    std::thread thread5(&Train::wait, StaticWrapper::trains[1]);
+    std::thread thread6(&Train::wait, StaticWrapper::trains[2]);
+        std::thread thread7(&Train::wait, StaticWrapper::trains[3]);
     
-    std::thread thread_provider(provide_trains,trains);
+    StaticWrapper::number_of_trains = StaticWrapper::trains.size();
     
-    thread1.join();
-    thread2.join();
-    thread3.join();
+    std::thread thread1(&Platform::work, platforms[0], StaticWrapper::trains);
+        usleep(1000000/3);
+    std::thread thread2(&Platform::work, platforms[1], StaticWrapper::trains);
+        usleep(1000000/3);
+    std::thread thread3(&Platform::work, platforms[2], StaticWrapper::trains);
+        usleep(1000000/3);
+    
+    // trains:
     thread4.join();
     thread5.join();
     thread6.join();
+    thread7.join();
+
+    // platforms:
+    thread1.join();
+    thread2.join();
+    thread3.join();
+    
+    
     thread_provider.join();
+    
     
 }
 

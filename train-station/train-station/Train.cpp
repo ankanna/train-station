@@ -31,14 +31,16 @@ Train::Train(){}
 void Train::wait()
 {
     // wait until any platform is free
-    std::cout << "Train " << train_number << "is waiting ";
+    std::cout << "Train " << train_number << " is waiting " << std::endl;;
     std::unique_lock<std::mutex> lock(StaticWrapper::mutex);
-    StaticWrapper::platform_cv.wait(lock, []{ return StaticWrapper::platform_is_free == true; });
-    // TODO: add condition about number of waiting trains
-    
+    StaticWrapper::platform_cv.wait(lock, []{ return StaticWrapper::platform_is_free && StaticWrapper::number_of_trains < 6; });
+
     // assign number and position of this train as last train which found free platform
     StaticWrapper::train_number = train_number;
     StaticWrapper::train_position = train_position;
     
+    std::cout << " Train " << train_number << " goes to platform " << StaticWrapper::platform_number << std::endl;
     StaticWrapper::platform_is_free = false;
+
+
 }
