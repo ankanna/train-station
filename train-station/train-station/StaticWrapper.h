@@ -51,5 +51,13 @@ public:
     
     // notifies about free slot on list (new train can join to wainting trains)
     static void notify_about_free_slot();
+    
+    static void lock();
+    
+    static void unlock();
+    
+    static void wait_for_platform(int train_number);
+    
+    static void serve_train();
 };
 

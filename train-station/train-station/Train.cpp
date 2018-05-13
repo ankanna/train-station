@@ -31,9 +31,7 @@ Train::Train(){}
 void Train::wait()
 {
     // wait until any platform is free
-    std::cout << "Train " << train_number << " is waiting " << std::endl;;
-    std::unique_lock<std::mutex> lock(StaticWrapper::mutex);
-    StaticWrapper::platform_cv.wait(lock, []{ return StaticWrapper::platform_is_free && StaticWrapper::number_of_trains < 6; });
+    StaticWrapper::wait_for_platform(train_number);
 
     // assign number and position of this train as last train which found free platform
     StaticWrapper::train_number = train_number;

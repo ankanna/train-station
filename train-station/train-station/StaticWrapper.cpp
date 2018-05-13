@@ -46,3 +46,25 @@ void StaticWrapper::notify_about_free_slot()
 {
     list_cv.notify_one();
 }
+
+void StaticWrapper::lock()
+{
+    mutex.lock();
+}
+
+void StaticWrapper::unlock()
+{
+    mutex.unlock();
+}
+
+void StaticWrapper::wait_for_platform(int train_number)
+{
+    std::unique_lock<std::mutex> lock(StaticWrapper::mutex);
+    std::cout << "Train " << train_number << " is waiting " << std::endl;;
+    StaticWrapper::platform_cv.wait(lock, []{ return StaticWrapper::platform_is_free && StaticWrapper::number_of_trains < 6; });
+}
+
+void StaticWrapper::serve_train()
+{
+    trains.erase(trains.begin() + train_position);
+}

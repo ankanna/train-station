@@ -28,7 +28,8 @@ void Platform::work(std::vector<Train> trains)
         StaticWrapper::notify_trains();
         
         // delete last train which entered the platform from list of waiting trains
-        trains.erase(trains.begin() + StaticWrapper::train_position);
+        StaticWrapper::serve_train();
+        std::cout << "Train " << StaticWrapper::train_number << " has just departed. What a relief!" << std::endl;
         
         StaticWrapper::platform_number = number;
         
