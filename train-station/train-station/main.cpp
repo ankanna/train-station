@@ -28,6 +28,7 @@ void provide_trains(std::vector<Train> trains)
         
         // create thread and run it
         std::thread thread(&Train::wait, trains.back());
+        thread.join();
         
         train_coutner++;
         

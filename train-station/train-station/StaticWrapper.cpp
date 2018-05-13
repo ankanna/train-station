@@ -40,4 +40,3 @@ void StaticWrapper::notify_about_free_slot()
     list_cv.notify_all();
     // list_cv.notify_one(); ???
 }
-

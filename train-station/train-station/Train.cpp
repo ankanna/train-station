@@ -42,4 +42,3 @@ void Train::wait()
     
     StaticWrapper::platform_is_free = false;
 }
-
