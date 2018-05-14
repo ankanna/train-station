@@ -39,12 +39,12 @@ StaticWrapper::StaticWrapper(){
 
 void StaticWrapper::notify_trains()
 {
-    platform_cv.notify_one();
+    platform_cv.notify_all();
 }
 
 void StaticWrapper::notify_about_free_slot()
 {
-    list_cv.notify_one();
+    list_cv.notify_all();
 }
 
 void StaticWrapper::lock()

@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <iostream>
 #include <mutex>
+#include <thread>
+#include <chrono>
 #include <condition_variable>
 #include "Train.h"
 

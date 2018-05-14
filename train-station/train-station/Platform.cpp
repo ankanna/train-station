@@ -24,8 +24,11 @@ void Platform::work(std::vector<Train> trains)
     while(1)
     {
         // delete last train which entered the platform from list of waiting trains
+        std::cout << "Train " << StaticWrapper::train_number << " is going to leave in " << StaticWrapper::trains[StaticWrapper::train_position].waiting_time << " seconds." << std::endl;
+        std::this_thread::sleep_for(std::chrono::seconds(StaticWrapper::trains[StaticWrapper::train_position].waiting_time));
+        
         StaticWrapper::serve_train();
-        std::cout << "Train " << StaticWrapper::train_number << " has just departed. What a relief!" << std::endl;
+        std::cout << "Train " << StaticWrapper::train_number << " has just departed from platform " << StaticWrapper::platform_number << ". What a relief!" << std::endl;
         
         // set platform as free and notify trains
         StaticWrapper::platform_is_free = true;

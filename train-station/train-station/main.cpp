@@ -95,7 +95,7 @@ int main()
     std::thread thread4(&Train::wait, StaticWrapper::trains[0]);
     std::thread thread5(&Train::wait, StaticWrapper::trains[1]);
     std::thread thread6(&Train::wait, StaticWrapper::trains[2]);
-        std::thread thread7(&Train::wait, StaticWrapper::trains[3]);
+    std::thread thread7(&Train::wait, StaticWrapper::trains[3]);
     
     StaticWrapper::number_of_trains = StaticWrapper::trains.size();
     

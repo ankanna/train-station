@@ -16,7 +16,7 @@ public:
     int train_number;
     int train_position;
     int loading_time;
-    int max_waiting_time;
+    int waiting_time;
     
     int priority;
     //char state;
