@@ -20,11 +20,15 @@ public:
     
     // platform number
     int number;
+    int current_train_index;
+    int current_train_number;
     
     Platform(int number);
     
     Platform();
     
     void work(std::vector<Train> trains);
+    
+    bool isFree;
 };
 

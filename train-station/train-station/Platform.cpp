@@ -14,6 +14,7 @@
 
 Platform::Platform(int num){
     number = num;
+    isFree = true;
 }
 
 Platform::Platform(){
@@ -23,17 +24,11 @@ void Platform::work(std::vector<Train> trains)
 {
     while(1)
     {
-        // delete last train which entered the platform from list of waiting trains
-        std::cout << "Train " << StaticWrapper::train_number << " is going to leave in " << StaticWrapper::trains[StaticWrapper::train_position].waiting_time << " seconds." << std::endl;
-        std::this_thread::sleep_for(std::chrono::seconds(StaticWrapper::trains[StaticWrapper::train_position].waiting_time));
-        
-        StaticWrapper::serve_train();
-        std::cout << "Train " << StaticWrapper::train_number << " has just departed from platform " << StaticWrapper::platform_number << ". What a relief!" << std::endl;
-        
         // set platform as free and notify trains
-        StaticWrapper::platform_is_free = true;
+        //StaticWrapper::platform_is_free = true;
+        isFree = true;
         StaticWrapper::notify_trains();        
-        
+        StaticWrapper::serve_train();
         StaticWrapper::platform_number = number;
         
         // tell everyone that train is on the platform and new train can join waiting trains
@@ -43,7 +38,15 @@ void Platform::work(std::vector<Train> trains)
         
         // loading time from specific train should be here
         std::cout << "Train " << trains[StaticWrapper::train_position].train_number << " is on platform " << number << std::endl;
+        current_train_index = StaticWrapper::train_position;
+        current_train_number = trains[current_train_index].train_number;
         usleep(1000000);
+        
+        // delete last train which entered the platform from list of waiting trains
+        std::cout << "Train " << current_train_number << " is going to leave in " << StaticWrapper::trains[StaticWrapper::train_position].waiting_time << " seconds." << std::endl;
+        std::this_thread::sleep_for(std::chrono::seconds(StaticWrapper::trains[StaticWrapper::train_position].waiting_time));
+        
 
+        std::cout << "Train " << current_train_number << " has just departed from platform " << number << ". What a relief!" << std::endl;
     }
 }
