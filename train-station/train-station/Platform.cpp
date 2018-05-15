@@ -35,11 +35,12 @@ void Platform::work(std::vector<Train> &trains)
         // (provide_trains(std::vector<Train> trains) in main should do the work and create new train)
         StaticWrapper::is_free_slot = true;
         StaticWrapper::notify_about_free_slot();
-        
-        // loading time from specific train should be here
+
         std::cout << "Train " << trains[StaticWrapper::train_position].train_number << " is on platform " << number << std::endl;
+        
         current_train_index = StaticWrapper::train_position;
         current_train_number = trains[current_train_index].train_number;
+    
         usleep(trains[StaticWrapper::train_position].waiting_time*1000000);
         
         // delete last train which entered the platform from list of waiting trains

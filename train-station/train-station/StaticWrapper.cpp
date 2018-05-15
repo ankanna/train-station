@@ -1,5 +1,5 @@
 //
-//  StaticWrapper1.cpp
+//  StaticWrapper.cpp
 //  train-station
 //
 //  Created by Anna Antonczak on 12.05.2018.

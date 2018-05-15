@@ -52,7 +52,7 @@ public:
     // notifies trains about free platform
     static void notify_trains();
     
-    // notifies about free slot on list (new train can join to wainting trains)
+    // notifies about free slot on list (new train can join waiting trains)
     static void notify_about_free_slot();
     
     static void lock();

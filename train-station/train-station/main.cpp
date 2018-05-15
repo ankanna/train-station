@@ -17,7 +17,6 @@ void provide_trains(std::vector<Train> &trains)
     while(1)
     {        
         // wait until train goes to free platform
-        // https://github.com/Scony/systemy-operacyjne-2/blob/master/projekt/zajecia-3-4-atomic-condvar/program7-cv-wait-pred.cpp
         std::unique_lock<std::mutex> lock(StaticWrapper::mutex);
         StaticWrapper::list_cv.wait(lock, []{ return StaticWrapper::is_free_slot == true; });
         
@@ -33,7 +32,7 @@ void provide_trains(std::vector<Train> &trains)
         
         // create thread and run it
         std::thread thread(&Train::wait, trains.back());
-        thread.join();
+        thread.detach();
         
         train_coutner++;
 
@@ -86,43 +85,28 @@ int main()
         trains.push_back(train);
     }
     
-    
-    // TODO: add this thread to vector and join them in loop
-    
-    std::thread thread4(&Train::wait, trains[0]);
-          usleep(1000000/4);
-    std::thread thread5(&Train::wait, trains[1]);
-          usleep(1000000/4);
-    std::thread thread6(&Train::wait, trains[2]);
-          usleep(1000000/4);
-    std::thread thread7(&Train::wait, trains[3]);
-              usleep(1000000/4);
-    
     StaticWrapper::number_of_trains = trains.size();
     
-    std::thread thread1(&Platform::work, platforms[0], std::ref(trains));
+    std::vector<std::thread> threads;
+    
+    // start new threads and push them to vector
+    
+    //trains
+    for (int i = 0; i < number_of_trains; i++){
+        threads.push_back(std::thread(&Train::wait, trains[i]));
+        usleep(1000000/4);
+    }
+    
+    //platforms
+    for (int i = 0; i < number_of_platforms; i++){
+        threads.push_back(std::thread(&Platform::work, platforms[0], std::ref(trains)));
         usleep(1000000/3);
-    std::thread thread2(&Platform::work, platforms[1], std::ref(trains));
-        usleep(1000000/3);
-    std::thread thread3(&Platform::work, platforms[2], std::ref(trains));
-        usleep(1000000/3);
+    }
     
-    std::thread thread_provider(provide_trains, std::ref(trains));
+    threads.push_back(std::thread(provide_trains, std::ref(trains)));
     
-    // trains:
-    thread4.join();
-    thread5.join();
-    thread6.join();
-    thread7.join();
-
-    // platforms:
-    thread1.join();
-    thread2.join();
-    thread3.join();
-    
-    
-    thread_provider.join();
-    
+    for (auto& thread : threads) // for (int i = 0; i < 10; i++)
+        thread.join();           // threads[i].join();
     
 }
 

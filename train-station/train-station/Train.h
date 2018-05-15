@@ -19,7 +19,6 @@ public:
     int waiting_time;
     
     int priority;
-    //char state;
     
     Train(int train_number, int train_position);
     
