@@ -12,6 +12,7 @@
 #include <mutex>
 #include <thread>
 #include <chrono>
+#include <vector>
 #include <condition_variable>
 #include "Train.h"
 
@@ -60,6 +61,6 @@ public:
     
     static void wait_for_platform(int train_number);
     
-    static void serve_train();
+    static void serve_train(std::vector<Train> &trains);
 };
 

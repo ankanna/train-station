@@ -8,14 +8,13 @@
 
 #include <time.h>
 #include <iostream>
+#include <random>
 #include "StaticWrapper.h"
 #include "Train.h"
 
 
 Train::Train(int train_num, int train_pos)
 {
-    srand(time(NULL));
-    
     train_number = train_num;
     train_position = train_pos;
     loading_time = (rand() % 7) + 1;
@@ -40,5 +39,5 @@ void Train::wait()
     std::cout << "Train " << train_number << " goes to platform " << StaticWrapper::platform_number << std::endl;
     StaticWrapper::platform_is_free = false;
 
-
 }
+

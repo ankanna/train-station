@@ -8,7 +8,6 @@
 
 #include <stdio.h>
 #include <iostream>
-#include <vector>
 #include "StaticWrapper.h"
 
 std::mutex StaticWrapper::mutex;
@@ -64,7 +63,7 @@ void StaticWrapper::wait_for_platform(int train_number)
     platform_cv.wait(lock, []{ return platform_is_free && number_of_trains < 6; });
 }
 
-void StaticWrapper::serve_train()
+void StaticWrapper::serve_train(std::vector<Train> &trains)
 {
     if (!trains.empty())
     {

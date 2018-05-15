@@ -27,7 +27,7 @@ public:
     
     Platform();
     
-    void work(std::vector<Train> trains);
+    void work(std::vector<Train> &trains);
     
     bool isFree;
 };

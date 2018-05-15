@@ -9,10 +9,10 @@
 #include <ncurses.h>
 #include <unistd.h>
 
-void provide_trains(std::vector<Train> trains)
+void provide_trains(std::vector<Train> &trains)
 {
     // couter to provide sequent train numbers (without dupilcation of trains numbers that left platform)
-    int train_coutner = trains.size()+1;
+    int train_coutner = StaticWrapper::number_of_trains+1;
     
     while(1)
     {        
@@ -33,7 +33,7 @@ void provide_trains(std::vector<Train> trains)
         
         // create thread and run it
         std::thread thread(&Train::wait, trains.back());
-        thread.detach();
+        thread.join();
         
         train_coutner++;
 
@@ -64,8 +64,8 @@ int main()
     //WINDOW * a, b;
     
     
-//    // vector of waiting trains
-//    std::vector<Train> trains;
+    // vector of waiting trains
+    std::vector<Train> trains;
     
     // list of platforms
     std::vector<Platform> platforms;
@@ -83,28 +83,31 @@ int main()
     
     for(int i = 0; i < number_of_trains; i++){
         Train train(i+1, i);
-        StaticWrapper::trains.push_back(train);
+        trains.push_back(train);
     }
     
     
     // TODO: add this thread to vector and join them in loop
     
+    std::thread thread4(&Train::wait, trains[0]);
+          usleep(1000000/4);
+    std::thread thread5(&Train::wait, trains[1]);
+          usleep(1000000/4);
+    std::thread thread6(&Train::wait, trains[2]);
+          usleep(1000000/4);
+    std::thread thread7(&Train::wait, trains[3]);
+              usleep(1000000/4);
     
-    std::thread thread_provider(provide_trains,StaticWrapper::trains);
-
-    std::thread thread4(&Train::wait, StaticWrapper::trains[0]);
-    std::thread thread5(&Train::wait, StaticWrapper::trains[1]);
-    std::thread thread6(&Train::wait, StaticWrapper::trains[2]);
-    std::thread thread7(&Train::wait, StaticWrapper::trains[3]);
+    StaticWrapper::number_of_trains = trains.size();
     
-    StaticWrapper::number_of_trains = StaticWrapper::trains.size();
+    std::thread thread1(&Platform::work, platforms[0], std::ref(trains));
+        usleep(1000000/3);
+    std::thread thread2(&Platform::work, platforms[1], std::ref(trains));
+        usleep(1000000/3);
+    std::thread thread3(&Platform::work, platforms[2], std::ref(trains));
+        usleep(1000000/3);
     
-    std::thread thread1(&Platform::work, platforms[0], StaticWrapper::trains);
-        usleep(1000000/3);
-    std::thread thread2(&Platform::work, platforms[1], StaticWrapper::trains);
-        usleep(1000000/3);
-    std::thread thread3(&Platform::work, platforms[2], StaticWrapper::trains);
-        usleep(1000000/3);
+    std::thread thread_provider(provide_trains, std::ref(trains));
     
     // trains:
     thread4.join();
