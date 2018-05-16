@@ -9,7 +9,9 @@
 #include <ncurses.h>
 #include <unistd.h>
 
-void provide_trains(std::vector<Train> &trains)
+#define RDELAY 100000
+
+void provide_trains(std::vector<Train> &trains, WINDOW *list_window)
 {
     // couter to provide sequent train numbers (without dupilcation of trains numbers that left platform)
     int train_coutner = StaticWrapper::number_of_trains+1;
@@ -28,10 +30,10 @@ void provide_trains(std::vector<Train> &trains)
         StaticWrapper::number_of_trains = trains.size();
         
 
-        std::cout << "Added new train number " << train_coutner << std::endl;
+    //    std::cout << "Added new train number " << train_coutner << std::endl;
         
         // create thread and run it
-        std::thread thread(&Train::wait, trains.back());
+        std::thread thread(&Train::wait, trains.back(), list_window);
         thread.detach();
         
         train_coutner++;
@@ -48,7 +50,7 @@ void provide_trains(std::vector<Train> &trains)
 //    }
 //}
 
-void initialize_ncurses()
+void init_ncurses()
 {
     srand(time(NULL));
     initscr();
@@ -58,11 +60,30 @@ void initialize_ncurses()
     refresh(); // Need this to let other windows be drawn
 }
 
-int main()
+void refresh_screen(WINDOW *list_window, WINDOW *platforms_window)
 {
-    //WINDOW * a, b;
+    while (1)
+    {
+        StaticWrapper::lock();
+        wrefresh(list_window);
+        wrefresh(platforms_window);
+        StaticWrapper::unlock();
+        usleep(RDELAY);
+    }
+}
+
+void init_windows(WINDOW *list_window, WINDOW *platforms_window){
+    int maxx, maxy, halfx, halfy;
+    getmaxyx(stdscr, maxy, maxx);
+    halfx = maxx >> 1;
+    halfy = maxy >> 1;
     
-    
+    // create two windows
+    list_window = newwin(maxy, halfx, 0, 0);
+    platforms_window = newwin(maxy, halfx, halfy, 0);
+}
+
+void create_threads(WINDOW *list_window, WINDOW *platforms_window){
     // vector of waiting trains
     std::vector<Train> trains;
     
@@ -93,7 +114,7 @@ int main()
     
     //trains
     for (int i = 0; i < number_of_trains; i++){
-        threads.push_back(std::thread(&Train::wait, trains[i]));
+        threads.push_back(std::thread(&Train::wait, trains[i], list_window));
         usleep(1000000/4);
     }
     
@@ -103,10 +124,34 @@ int main()
         usleep(1000000/3);
     }
     
-    threads.push_back(std::thread(provide_trains, std::ref(trains)));
+    threads.push_back(std::thread(provide_trains, std::ref(trains), list_window));
+    
+    threads.push_back(std::thread(refresh_screen, list_window, platforms_window));
     
     for (auto& thread : threads) // for (int i = 0; i < 10; i++)
         thread.join();           // threads[i].join();
+    
+}
+int main()
+{
+    
+    WINDOW *list_window, *platforms_window;
+
+    init_ncurses();
+    
+    int maxx, maxy, halfx, halfy;
+    getmaxyx(stdscr, maxy, maxx);
+    halfx = maxx >> 1;
+    halfy = maxy >> 1;
+    
+    /* create two windows to fill the screen */
+    // WINDOW *a, *b, *c, *d;
+    list_window = newwin(maxy, halfx, 0, 0);
+    platforms_window = newwin(maxy, halfx, halfy, 0);
+
+   // init_windows(list_window, platforms_window);
+    
+    create_threads(list_window, platforms_window);
     
 }
 

@@ -7,6 +7,7 @@
 //
 #pragma once
 #include <iostream>
+#include <ncurses.h>
 
 
 class Train
@@ -25,6 +26,6 @@ public:
     Train();
     
     // wait for free platform
-    void wait();
+    void wait(WINDOW *window);
 };
 

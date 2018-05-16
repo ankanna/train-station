@@ -9,6 +9,7 @@
 #include <time.h>
 #include <iostream>
 #include <random>
+#include <sstream>
 #include "StaticWrapper.h"
 #include "Train.h"
 
@@ -27,7 +28,7 @@ Train::Train(int train_num, int train_pos)
 
 Train::Train(){}
 
-void Train::wait()
+void Train::wait(WINDOW *window)
 {
     // wait until any platform is free
     StaticWrapper::wait_for_platform(train_number);
@@ -36,7 +37,14 @@ void Train::wait()
     StaticWrapper::train_number = train_number;
     StaticWrapper::train_position = train_position;
     
-    std::cout << "Train " << train_number << " goes to platform " << StaticWrapper::platform_number << std::endl;
+    std::ostringstream osstream;
+  //  StaticWrapper::lock();
+    std::cout <<"Train " << train_number << " goes to platform " << StaticWrapper::platform_number << std::endl;
+    osstream << "Train " << train_number << " goes to platform " << StaticWrapper::platform_number << std::endl;
+    std::string temp = osstream.str();
+   // mvwprintw(window,10, 10, const_cast<char *>(temp.c_str()));
+        mvwprintw(window,10, 10, "aaa");
+   // StaticWrapper::unlock();
     StaticWrapper::platform_is_free = false;
 
 }

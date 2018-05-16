@@ -36,7 +36,7 @@ void Platform::work(std::vector<Train> &trains)
         StaticWrapper::is_free_slot = true;
         StaticWrapper::notify_about_free_slot();
 
-        std::cout << "Train " << trains[StaticWrapper::train_position].train_number << " is on platform " << number << std::endl;
+      //  std::cout << "Train " << trains[StaticWrapper::train_position].train_number << " is on platform " << number << std::endl;
         
         current_train_index = StaticWrapper::train_position;
         current_train_number = trains[current_train_index].train_number;
@@ -44,10 +44,10 @@ void Platform::work(std::vector<Train> &trains)
         usleep(trains[StaticWrapper::train_position].waiting_time*1000000);
         
         // delete last train which entered the platform from list of waiting trains
-        std::cout << "Train " << current_train_number << " is going to leave in " << trains[StaticWrapper::train_position].waiting_time << " seconds." << std::endl;
+        //std::cout << "Train " << current_train_number << " is going to leave in " << trains[StaticWrapper::train_position].waiting_time << " seconds." << std::endl;
         std::this_thread::sleep_for(std::chrono::seconds(trains[StaticWrapper::train_position].waiting_time));
         
 
-        std::cout << "Train " << current_train_number << " has just departed from platform " << number << ". What a relief!" << std::endl;
+       // std::cout << "Train " << current_train_number << " has just departed from platform " << number << ". What a relief!" << std::endl;
     }
 }
