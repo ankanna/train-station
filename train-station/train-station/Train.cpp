@@ -6,35 +6,38 @@
 //  Copyright © 2018 ankanna. All rights reserved.
 //
 
-#include <pthread.h>
 #include <time.h>
-#include <stdlib.h>
+#include <iostream>
+#include <random>
+#include "StaticWrapper.h"
+#include "Train.h"
 
-class Train
+
+Train::Train(int train_num, int train_pos)
 {
-    pthread_t thread;
-    pthread_cond_t granted;
+    train_number = train_num;
+    train_position = train_pos;
+    loading_time = (rand() % 7) + 1;
+    waiting_time = (rand() % 5) + 3;
     
-    int train_number;
-    int loading_time;
-    int max_waiting_time;
+    priority = (rand() % 10) + 1;
+    // not necessary
+    // state = 'w'; //waiting (also possible: a - approaching, l - loading)
+}
+
+Train::Train(){}
+
+void Train::wait()
+{
+    // wait until any platform is free
+    StaticWrapper::wait_for_platform(train_number);
+
+    // assign number and position of this train as last train which found free platform
+    StaticWrapper::train_number = train_number;
+    StaticWrapper::train_position = train_position;
     
-    int priority;
-    char state;
-    
-    
-public: Train(int train_number)
-    {
-        srand(time(NULL));
-        
-        this->thread = *new pthread_t();
-        this->granted = PTHREAD_COND_INITIALIZER;
-        
-        this->train_number = train_number;
-        this->loading_time = (rand() % 7) + 1;
-        this->max_waiting_time = (rand() % 20) + 20;
-        
-        this->priority = (rand() % 10) + 1;
-        this->state = 'w'; //waiting (also possible: a - approaching, l - loading)
-    }
-};
+    std::cout << "Train " << train_number << " goes to platform " << StaticWrapper::platform_number << std::endl;
+    StaticWrapper::platform_is_free = false;
+
+}
+

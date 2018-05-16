@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		81B93CEC2074F4AC00524F53 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 81B93CEB2074F4AC00524F53 /* main.cpp */; };
 		81DE1924207528CC00F0078D /* libncurses.5.4.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 81DE1923207528CC00F0078D /* libncurses.5.4.tbd */; };
+		81FE316820A653C6006002B6 /* Platform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 81FE316720A653C6006002B6 /* Platform.cpp */; };
+		81FE316A20A6540A006002B6 /* StaticWrapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 81FE316920A6540A006002B6 /* StaticWrapper.cpp */; };
 		86B46074208E432C00C15696 /* Train.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 86B46073208E432C00C15696 /* Train.cpp */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +30,11 @@
 		81B93CE82074F4AC00524F53 /* train-station */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "train-station"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81B93CEB2074F4AC00524F53 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		81DE1923207528CC00F0078D /* libncurses.5.4.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.5.4.tbd; path = usr/lib/libncurses.5.4.tbd; sourceTree = SDKROOT; };
+		81FE316720A653C6006002B6 /* Platform.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Platform.cpp; sourceTree = "<group>"; };
+		81FE316920A6540A006002B6 /* StaticWrapper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StaticWrapper.cpp; sourceTree = "<group>"; };
+		81FE316B20A72CED006002B6 /* Train.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Train.h; sourceTree = "<group>"; };
+		81FE316C20A72E49006002B6 /* StaticWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StaticWrapper.h; sourceTree = "<group>"; };
+		81FE316D20A733A3006002B6 /* Platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Platform.h; sourceTree = "<group>"; };
 		86B46073208E432C00C15696 /* Train.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Train.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,6 +72,11 @@
 			children = (
 				81B93CEB2074F4AC00524F53 /* main.cpp */,
 				86B46073208E432C00C15696 /* Train.cpp */,
+				81FE316720A653C6006002B6 /* Platform.cpp */,
+				81FE316920A6540A006002B6 /* StaticWrapper.cpp */,
+				81FE316B20A72CED006002B6 /* Train.h */,
+				81FE316C20A72E49006002B6 /* StaticWrapper.h */,
+				81FE316D20A733A3006002B6 /* Platform.h */,
 			);
 			path = "train-station";
 			sourceTree = "<group>";
@@ -135,6 +147,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				86B46074208E432C00C15696 /* Train.cpp in Sources */,
+				81FE316A20A6540A006002B6 /* StaticWrapper.cpp in Sources */,
+				81FE316820A653C6006002B6 /* Platform.cpp in Sources */,
 				81B93CEC2074F4AC00524F53 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
