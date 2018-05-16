@@ -10,6 +10,7 @@
 #include <unistd.h>
 
 #define RDELAY 100000
+    WINDOW *list_window, *platforms_window;
 
 void provide_trains(std::vector<Train> &trains, WINDOW *list_window)
 {
@@ -30,7 +31,7 @@ void provide_trains(std::vector<Train> &trains, WINDOW *list_window)
         StaticWrapper::number_of_trains = trains.size();
         
 
-    //    std::cout << "Added new train number " << train_coutner << std::endl;
+        std::cout << "Added new train number " << train_coutner << std::endl;
         
         // create thread and run it
         std::thread thread(&Train::wait, trains.back(), list_window);
@@ -83,7 +84,7 @@ void init_windows(WINDOW *list_window, WINDOW *platforms_window){
     platforms_window = newwin(maxy, halfx, halfy, 0);
 }
 
-void create_threads(WINDOW *list_window, WINDOW *platforms_window){
+void create_threads(){
     // vector of waiting trains
     std::vector<Train> trains;
     
@@ -135,7 +136,7 @@ void create_threads(WINDOW *list_window, WINDOW *platforms_window){
 int main()
 {
     
-    WINDOW *list_window, *platforms_window;
+  //  WINDOW *list_window, *platforms_window;
 
     init_ncurses();
     
@@ -151,7 +152,7 @@ int main()
 
    // init_windows(list_window, platforms_window);
     
-    create_threads(list_window, platforms_window);
+    create_threads();
     
 }
 
