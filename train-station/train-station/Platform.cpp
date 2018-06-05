@@ -38,7 +38,7 @@ void Platform::work(std::vector<Train> &trains)
 
         std::cout << "Train " << trains[StaticWrapper::train_position].train_number << " is on platform " << number << std::endl;
         
-        current_train_index = StaticWrapper::train_position;
+        current_train_index = StaticWrapper::get_highest_priority_train_index(trains);
         current_train_number = trains[current_train_index].train_number;
     
         usleep(trains[StaticWrapper::train_position].waiting_time*1000000);

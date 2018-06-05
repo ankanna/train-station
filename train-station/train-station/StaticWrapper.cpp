@@ -56,6 +56,20 @@ void StaticWrapper::unlock()
     mutex.unlock();
 }
 
+int StaticWrapper::get_highest_priority_train_index(std::vector<Train> &trains)
+{
+    int highest_priority_train_number = 0;
+    
+    for(int i = 1; i < trains.size(); i++)
+    {
+        if(trains[i].priority < trains[i - 1].priority)
+        {
+            highest_priority_train_number = i;
+        }
+    }
+    return highest_priority_train_number;
+}
+
 void StaticWrapper::wait_for_platform(int train_number)
 {
     std::unique_lock<std::mutex> lock(mutex);
@@ -67,6 +81,18 @@ void StaticWrapper::serve_train(std::vector<Train> &trains)
 {
     if (!trains.empty())
     {
-        trains.erase(trains.begin() + train_position);
+        trains.erase(trains.begin() + get_highest_priority_train_index(trains));
+        adjustPriorities(trains);
+    }
+}
+
+void StaticWrapper::adjustPriorities(std::vector<Train> &trains)
+{
+    for (int i = 0; i < trains.size(); i++)
+    {
+        if(trains[i].priority > 1)
+        {
+            trains[i].priority--;
+        }
     }
 }

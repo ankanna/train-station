@@ -59,8 +59,12 @@ public:
     
     static void unlock();
     
+    static int get_highest_priority_train_index(std::vector<Train> &trains);
+
     static void wait_for_platform(int train_number);
     
     static void serve_train(std::vector<Train> &trains);
+    
+    static void adjustPriorities(std::vector<Train> &trains);
 };
 
