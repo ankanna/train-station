@@ -62,7 +62,7 @@ int StaticWrapper::get_highest_priority_train_index(std::vector<Train> &trains)
     
     for(int i = 1; i < trains.size(); i++)
     {
-        if(trains[i].priority < trains[i - 1].priority)
+        if(trains[i].priority < trains[highest_priority_train_number].priority)
         {
             highest_priority_train_number = i;
         }
