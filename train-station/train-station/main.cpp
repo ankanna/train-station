@@ -26,7 +26,6 @@ void provide_trains(std::vector<Train> &trains)
         Train train(train_coutner, trains.size());
         trains.push_back(train);
         StaticWrapper::number_of_trains = trains.size();
-        
 
         std::cout << "Added new train number " << train_coutner << std::endl;
         
@@ -99,7 +98,7 @@ int main()
     
     //platforms
     for (int i = 0; i < number_of_platforms; i++){
-        threads.push_back(std::thread(&Platform::work, platforms[0], std::ref(trains)));
+        threads.push_back(std::thread(&Platform::work, platforms[i], std::ref(trains)));
         usleep(1000000/3);
     }
     
